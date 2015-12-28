@@ -1,7 +1,7 @@
 <?php
 class Session {
 
-  public function __construct() {
+  function __construct() {
     session_start();
   }
 
@@ -35,13 +35,12 @@ class Session {
   }
 
   //Login check
-  public function loginCheck() {
-    $currentTime = $_SERVER['REQUEST_TIME'];
-    if (hasSession()) {
-      $_SESSION['lastPing'] = $currentTime;
+  public function loginCheck($connection) {
+    if ($this->hasSession()) {
+      $_SESSION['lastPing'] = $_SERVER['REQUEST_TIME'];
       return;
     }
-    $rememberedUid = isRemembered();
+    $rememberedUid = $this->isRemembered($connection);
     if (!$rememberedUid) {
       //TODO: user is NOT logged in
       session_destroy();
@@ -49,11 +48,12 @@ class Session {
       exit();
     } else {
       //user is remembered; associate current session with user id
-      setSession($rememberedUid);
+      $this->setSession($rememberedUid);
     }
   }
 
   public function setSession($uid) {
+    echo 'setSession()';
     $_SESSION['userId'] = $uid;
     $_SESSION['userIp'] = $_SERVER['REMOTE_ADDR'];
     $_SESSION['lastPing'] = $_SERVER['REQUEST_TIME'];

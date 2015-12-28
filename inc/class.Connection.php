@@ -2,16 +2,15 @@
 class Connection {
   // Holds the database connection
   private $connect;
-
   private $dbHost = 'localhost';
   private $dbUsername = 'root';
   private $dbPassword = 'root';
-  public $dbName = 'netwerk'
+  public $dbName = 'netwerk';
 
   /*
   * Creates connection to the db
   */
-  public function __construct() {
+  function __construct() {
     $this->connect = new mysqli($this->dbHost, $this->dbUsername,
     $this->dbPassword, $this->dbName);
     if ($this->connect->connect_error) {
@@ -48,25 +47,27 @@ class Connection {
   */
   public function getAuthToken($selector) {
     $stmt = $this->connect->stmt_init();
+    echo mysqli_error($this->connect);
     if (!($stmt->prepare("SELECT selector, token, uid FROM auth_tokens WHERE selector = ? AND expires > NOW() LIMIT 1"))) {
-      $stmt->close;
+      $stmt->close();
       echo 'Error code 100: Please report to administrator.';
       return false;
     }
     $stmt->bind_param("s", $selector);
-    if (!($stmt->execute()) {
+    if (!($stmt->execute())) {
       echo 'Error code 200: Please report to administrator.';
-      $stmt->close;
+      $stmt->close();
       return false;
     }
     $result = array();
     $stmt->bind_result($result['selector'], $result['token'], $result['uid']);
     $stmt->fetch();
-    $stmt->close;
+    $stmt->close();
     if (!empty($result)) {
       return $result;
     }
     return false;
   }
+}
 
   ?>
