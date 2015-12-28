@@ -3,8 +3,6 @@ require_once 'inc/forcehttps.php';
 function __autoload($class_name) {
   include_once 'inc/class.' . $class_name . '.php';
 }
-
-
 ?>
 
 <!DOCTYPE html>
