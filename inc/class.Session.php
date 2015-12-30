@@ -53,7 +53,6 @@ class Session {
   }
 
   public function setSession($uid) {
-    echo 'setSession()';
     $_SESSION['userId'] = $uid;
     $_SESSION['userIp'] = $_SERVER['REMOTE_ADDR'];
     $_SESSION['lastPing'] = $_SERVER['REQUEST_TIME'];

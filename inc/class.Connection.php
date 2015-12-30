@@ -47,7 +47,6 @@ class Connection {
   */
   public function getAuthToken($selector) {
     $stmt = $this->connect->stmt_init();
-    echo mysqli_error($this->connect);
     if (!($stmt->prepare("SELECT selector, token, uid FROM auth_tokens WHERE selector = ? AND expires > NOW() LIMIT 1"))) {
       $stmt->close();
       echo 'Error code 100: Please report to administrator.';
